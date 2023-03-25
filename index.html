@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widerruf200.de</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <section class="header">
+    <div class="header-inner">
+      <span class="title">Widerruf
+        <span>200</span>
+      </span>
+    </div>
+  </section>
+
+  <div class="main-container">
+  <section class="main">
+    <h1>Hol Dir jetzt Deine Daten zurück!</h1>
+  <p class="content">
+    Du hast die 200 Euro (Engergiepreispauschale gem. EPPSG) bereits erhalten und benötigst Deine BundID, die Du im Rahmen der Antragstellung eingerichtet hast, nicht mehr? Kein Problem! Gib hier Deine Daten ein, die Du bei der Registrierung der BundID verwendet hast und klicke auf "Widerrufsmail erzeugen". Deine Eingaben werden automatisch in eine E-Mail eingefügt, die Du nur noch absenden musst. Keine Sorge: Die Daten werden dabei nicht an diesen Server übertragen. Warum das so ist, und wie das funktioniert, kannst Du  <a href="information.html">hier</a> nachlesen.
+     <br><br>
+    Los geht's:
+   </p>
+  <form id="widerrufForm">
+    <input type="text" id="email" placeholder="E-Mail-Adresse Deiner BundID" required>
+    <input type="text" id="vorname" placeholder="Vorname" required>
+    <input type="text" id="nachname" placeholder="Name" required>
+  </form>
+    <button onclick="generateEmail(); updateCounter()">Widerrufstext erzeugen</button>
+
+    <div id="output" style="visibility: hidden;">
+      <hr />
+      <h2>E-Mail</h2>
+      <p>
+        Sende die folgende E-Mail an bundid@bmi.bund.de:
+      </p>
+      <form>
+        <input onclick="this.select(); navigator.clipboard.writeText(this.value);" type="text" readonly id="output-subject"><br>
+        <textarea onclick="this.select(); navigator.clipboard.writeText(this.value);" id="output-body" rows="10" cols="90" readonly></textarea>
+      </form>
+      <button onclick="openInEmailClient()">In E-Mailprogramm übernehmen</button>
+
+    </div>
+  </section>
+    <div class="xoxo">
+        xoxo
+        <br>
+      <a href="https://twitter.com/LilithWittmann">Lilith</a> & <a href="https://twitter.com/g_arezzo">Christian</a>
+    </div>
+    <section class="footer">
+      <a href="index.html">Startseite</a>
+      <a href="information.html">Information</a>
+      <a href="datenschutz.html">Datenschutzinformation</a>
+      <a href="impressum.html">Impressum</a>
+    </section>
+
+  </div>
+
+  <script>
+
+    function generateBody() {
+
+      const email = document.getElementById('email').value;
+      const vorname = document.getElementById('vorname').value;
+      const nachname = document.getElementById('nachname').value;
+
+        const body =
+        `Sehr geehrte Damen und Herren,\n\n` +
+        `hiermit widerrufe ich gemäß Art. 7 Abs. 3 DSGVO meine Einwilligung, die ich Ihnen gegenüber bei der Einrichtung der BundID erteilt habe.\n\n` +
+        `Mein Benutzername bzw. meine E-Mail-Adresse, mit dem/der ich mich bei Ihnen registriert habe, lautet: ${email}\n\n` +
+        `Bitte bestätigen Sie mir die Löschung meiner BundID an diese E-Mail-Adresse. Vielen Dank im Voraus!\n\n` +
+        `Mit freundlichen Grüßen\n${vorname} ${nachname}`;
+
+        return body;
+
+    }
+
+    function generateSubject() {
+       const subject = "Widerruf";
+       return subject;
+    }
+
+    function generateEmail() {
+      document.getElementById('output-subject').value = generateSubject();
+      document.getElementById('output-body').value = generateBody();
+      document.getElementById('output').style.visibility = "visible";
+      location.href = "#";
+      location.href = "#output";
+    }
+
+    function openInEmailClient() {
+      const mailtoLink = `mailto:bundid@bmi.bund.de?subject=${encodeURIComponent(generateSubject())}&body=${encodeURIComponent(generateBody())}`;
+      window.open(mailtoLink);
+    }
+
+    function updateCounter() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("Counter updated");
+            }
+        };
+        xhttp.open("GET", "update_counter.php", true);
+        xhttp.send();
+    }
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zählerstand</title>
+</head>
+<body>
+  <h1>Zählerstand:</h1>
+  <p id="counter-value">Lädt...</p>
+  <br><br><br>
+ <a href="index.html">Startseite</a>
+  <script>
+    function getCounter() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          document.getElementById("counter-value").innerHTML = this.responseText;
+        }
+      };
+      xhttp.open("GET", "get_counter.php", true);
+      xhttp.send();
+    }
+
+    // Rufen Sie die Funktion auf, um den Zählerstand beim Laden der Seite abzurufen
+    getCounter();
+  </script>
+</body>
+</html>
